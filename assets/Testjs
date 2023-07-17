@@ -1,0 +1,51 @@
+function getMaxUnits(boxes, unitsPerBox, truckSize) {
+    const items = [];
+
+    for (let i = 0; i < boxes.length; i++) {
+        items.push({ boxes: boxes[i], unitsPerBox: unitsPerBox[i] });
+    }
+
+    // Sort items based on the number of units per box in descending order
+    items.sort((a, b) => b.unitsPerBox - a.unitsPerBox);
+
+    let maxUnits = 0;
+    let remainingTruckSize = truckSize;
+
+    for (let i = 0; i < items.length; i++) {
+        const { boxes, unitsPerBox } = items[i];
+
+        if (remainingTruckSize >= boxes) {
+            maxUnits += boxes * unitsPerBox;
+            remainingTruckSize -= boxes;
+        } else {
+            maxUnits += remainingTruckSize * unitsPerBox;
+            break;
+        }
+    }
+
+    return maxUnits;
+}
+
+function main() {
+    const n = parseInt(readLine().trim(), 10);
+
+    const boxes = [];
+    for (let i = 0; i < n; i++) {
+        const boxesItem = parseInt(readLine().trim(), 10);
+        boxes.push(boxesItem);
+    }
+
+    const unitsPerBox = [];
+    for (let i = 0; i < n; i++) {
+        const unitsPerBoxItem = parseInt(readLine().trim(), 10);
+        unitsPerBox.push(unitsPerBoxItem);
+    }
+
+    const truckSize = parseInt(readLine().trim(), 10);
+
+    const result = getMaxUnits(boxes, unitsPerBox, truckSize);
+    console.log(result);
+}
+
+// Run the code
+main();
